@@ -41,25 +41,21 @@ public class Main {
                 continue;
             }
 
-            // ===============================
             // Single Quote Handling
-            // ===============================
+
             if (c == '\'' && !inDoubleQuote) {
                 inSingleQuote = !inSingleQuote;
                 continue;
             }
 
-            // ===============================
             // Double Quote Handling
-            // ===============================
+
             if (c == '"' && !inSingleQuote) {
                 inDoubleQuote = !inDoubleQuote;
                 continue;
             }
-
-            // ===============================
             // Whitespace outside quotes
-            // ===============================
+
             if (Character.isWhitespace(c) && !inSingleQuote && !inDoubleQuote) {
                 if (current.length() > 0) {
                     args.add(current.toString());
@@ -92,9 +88,8 @@ public class Main {
             if (tokens.isEmpty())
                 continue;
 
-            // ===============================
-            // 🔥 Detect Redirection
-            // ===============================
+            //  Detect Redirection
+
             String redirectFile = null;
             List<String> cleanTokens = new ArrayList<>();
 
@@ -124,9 +119,9 @@ public class Main {
                 output = new PrintStream(new FileOutputStream(file, false));
             }
 
-            // =========================
+
             // Built-in: echo
-            // =========================
+
             if (command.equals("echo")) {
                 for (int i = 1; i < cleanTokens.size(); i++) {
                     output.print(cleanTokens.get(i));
@@ -139,9 +134,8 @@ public class Main {
                     output.close();
             }
 
-            // =========================
             // Built-in: type
-            // =========================
+
             else if (command.equals("type")) {
                 if (cleanTokens.size() > 1) {
                     String arg = cleanTokens.get(1);
@@ -170,10 +164,7 @@ public class Main {
                 if (redirectFile != null)
                     output.close();
             }
-
-            // =========================
             // External commands
-            // =========================
             else {
                 String path = System.getenv("PATH");
                 String[] pathDirs = path.split(File.pathSeparator);
